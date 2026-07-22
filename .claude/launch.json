@@ -1,0 +1,15 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "app",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev", "--workspace=server"],
+      "port": 3000,
+      "autoPort": true,
+      "env": {
+        "DEV_BYPASS_AUTH": "1"
+      }
+    }
+  ]
+}
