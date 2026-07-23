@@ -52,11 +52,20 @@ async function archiviaListeScadute(): Promise<void> {
   );
 }
 
+// La bacheca è una chat "usa e getta": i messaggi più vecchi di 24 ore
+// spariscono da soli, insieme alle mappature dei messaggi del bot ormai orfane.
+async function pulisciBacheca(): Promise<void> {
+  const cutoff = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
+  await query(`DELETE FROM bacheca WHERE created_at < $1`, [cutoff]);
+  await query(`DELETE FROM bacheca_msg_map WHERE created_at < $1`, [cutoff]);
+}
+
 export function startScheduler(): void {
   cron.schedule('* * * * *', async () => {
     try {
       await inviaPromemoria();
       await archiviaListeScadute();
+      await pulisciBacheca();
     } catch (err) {
       console.error('[scheduler] errore:', err);
     }

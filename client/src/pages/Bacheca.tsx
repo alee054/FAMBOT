@@ -142,6 +142,7 @@ export default function Bacheca() {
       <p className="note" style={{ marginTop: 0, marginBottom: 16 }}>
         Arriva a tutti come messaggio del bot (con notifica). Chi risponde — anche
         direttamente da Telegram — compare qui nella conversazione.
+        I messaggi si cancellano da soli dopo 24 ore.
       </p>
 
       {thread.length === 0 ? (

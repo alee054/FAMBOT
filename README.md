@@ -4,15 +4,19 @@ Mini App Telegram (WebApp) a uso privato per 4 persone di casa. Login automatico
 tramite Telegram `initData` (HMAC-SHA256 validato lato server, niente password).
 
 Tre funzioni:
-- **Lista della spesa** (è la home): lista condivisa e interattiva. Appena si apre
-  l'app si vedono subito le liste attive, tutti possono aggiungere/togliere prodotti
-  e spuntare le caselle (aggiornamento quasi in tempo reale via polling). Prodotti
-  suggeriti dallo storico di tutti, invio a un destinatario scelto e auto-archiviazione
-  dopo 24h.
+- **Lista della spesa** (è la home): appena si apre l'app si vede solo la lista,
+  pulita, con le caselle grandi da spuntare mentre si fa la spesa (aggiornamento
+  quasi in tempo reale via polling, tutti vedono le spunte degli altri). Sotto,
+  due soli pulsanti: *Modifica lista* (apre il pannello con titolo, aggiunta/rimozione
+  prodotti, suggerimenti dallo storico, destinatario, invio) e *Nuova lista*.
+  Le liste inviate si auto-archiviano dopo 24h.
 - **Promemoria** personali, inviati dal bot a una persona specifica all'orario impostato.
 - **Bacheca**: una chat di famiglia bidirezionale. I messaggi arrivano a tutti come
   messaggi del bot (con notifica push); chi risponde — anche direttamente da Telegram,
-  rispondendo al messaggio del bot — compare nel thread dentro l'app.
+  rispondendo al messaggio del bot — compare nel thread dentro l'app. È una chat
+  "usa e getta": i messaggi si cancellano da soli dopo 24 ore.
+- **Piantina** del supermercato: mappa interattiva con zoom, spostamento e zone
+  toccabili (fase 1: solo la mappa).
 
 ## Struttura
 
@@ -29,7 +33,8 @@ Tre funzioni:
     └── src/
         ├── auth.ts         # Validazione HMAC di initData + limite 4 utenti
         ├── db.ts           # Postgres (Railway) o pg-mem in-memory (sviluppo)
-        ├── scheduler.ts    # Cron: promemoria + auto-archivio liste dopo 24h
+        ├── scheduler.ts    # Cron: promemoria, auto-archivio liste e
+        │                   # pulizia bacheca (tutto a 24h)
         ├── telegram.ts     # Invio messaggi + getUpdates via Bot API
         ├── botChat.ts      # Long polling del bot: risposte della bacheca in thread
         └── routes/         # /api/users, /liste, /promemoria, /bacheca
