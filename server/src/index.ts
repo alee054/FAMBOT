@@ -4,6 +4,7 @@ import fs from 'fs';
 import { migrate } from './db';
 import { authMiddleware } from './auth';
 import { startScheduler } from './scheduler';
+import { startBotPolling } from './botChat';
 import users from './routes/users';
 import liste from './routes/liste';
 import promemoria from './routes/promemoria';
@@ -41,6 +42,7 @@ migrate()
   .then(() => {
     app.listen(port, () => console.log(`[server] in ascolto su porta ${port}`));
     startScheduler();
+    startBotPolling();
   })
   .catch((err) => {
     console.error('[server] migration fallita:', err);

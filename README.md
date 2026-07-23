@@ -4,10 +4,15 @@ Mini App Telegram (WebApp) a uso privato per 4 persone di casa. Login automatico
 tramite Telegram `initData` (HMAC-SHA256 validato lato server, niente password).
 
 Tre funzioni:
-- **Lista della spesa** condivisa, con prodotti suggeriti dallo storico di tutti,
-  invio a un destinatario scelto e auto-archiviazione dopo 24h.
+- **Lista della spesa** (è la home): lista condivisa e interattiva. Appena si apre
+  l'app si vedono subito le liste attive, tutti possono aggiungere/togliere prodotti
+  e spuntare le caselle (aggiornamento quasi in tempo reale via polling). Prodotti
+  suggeriti dallo storico di tutti, invio a un destinatario scelto e auto-archiviazione
+  dopo 24h.
 - **Promemoria** personali, inviati dal bot a una persona specifica all'orario impostato.
-- **Bacheca**: i messaggi compaiono nell'app e vengono inoltrati in chat a tutti e 4.
+- **Bacheca**: una chat di famiglia bidirezionale. I messaggi arrivano a tutti come
+  messaggi del bot (con notifica push); chi risponde — anche direttamente da Telegram,
+  rispondendo al messaggio del bot — compare nel thread dentro l'app.
 
 ## Struttura
 
@@ -17,14 +22,16 @@ Tre funzioni:
 │       ├── telegram.ts     # SDK Telegram (BackButton, haptic, tema)
 │       ├── api.ts          # Fetch wrapper: manda initData in Authorization
 │       ├── components.tsx  # Componenti condivisi + bottom nav (3 tab)
-│       └── pages/          # Liste, ListaDettaglio, Storico, Promemoria, Bacheca
+│       └── pages/          # Home (lista interattiva), ListaDettaglio, Storico,
+│                           # Promemoria, Bacheca
 └── server/                 # Backend: Node.js + Express + TypeScript
     ├── migrations/         # Schema Postgres (applicato in automatico all'avvio)
     └── src/
         ├── auth.ts         # Validazione HMAC di initData + limite 4 utenti
         ├── db.ts           # Postgres (Railway) o pg-mem in-memory (sviluppo)
         ├── scheduler.ts    # Cron: promemoria + auto-archivio liste dopo 24h
-        ├── telegram.ts     # Invio messaggi via Bot API
+        ├── telegram.ts     # Invio messaggi + getUpdates via Bot API
+        ├── botChat.ts      # Long polling del bot: risposte della bacheca in thread
         └── routes/         # /api/users, /liste, /promemoria, /bacheca
 ```
 
@@ -82,3 +89,15 @@ che i 4 aprano l'app per primi.
 
 > Il `BOT_TOKEN` sul server deve essere lo stesso bot da cui apri la Mini App,
 > altrimenti la validazione di initData fallisce con 401.
+
+## Bacheca bidirezionale (come funziona)
+
+Il server, all'avvio, apre un **long polling** verso Telegram (`getUpdates`) per
+ricevere i messaggi in arrivo al bot. Quando un familiare **risponde** (funzione
+"Reply" di Telegram) a un messaggio del bot in chat privata, la risposta viene
+agganciata al thread giusto della bacheca (tramite `reply_to_message`) e compare
+nell'app. Anche un messaggio normale scritto al bot diventa un nuovo post in bacheca.
+
+> ⚠️ Il bot usa il **polling**, non i webhook (i due metodi sono esclusivi). Non
+> impostare un webhook sul bot, altrimenti la bacheca smette di ricevere le risposte.
+> Deve girare **una sola istanza** del server (su Railway è così di default).

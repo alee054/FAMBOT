@@ -3,15 +3,15 @@
   --card: #ffffff;
   --card-2: #f7f8fa;
   --text: #16181d;
-  --hint: #7a808a;
+  --hint: #6a7079;
   --accent: #2f8f6b;
   --accent-soft: #e4f3ec;
   --accent-text: #ffffff;
   --destructive: #d64545;
   --destructive-soft: #fbe8e8;
   --positive: #2f8f6b;
-  --separator: rgba(0, 0, 0, 0.08);
-  --border: rgba(0, 0, 0, 0.10);
+  --separator: rgba(0, 0, 0, 0.09);
+  --border: rgba(0, 0, 0, 0.12);
   --radius: 16px;
 }
 
@@ -20,15 +20,15 @@
   --card: #1a1d23;
   --card-2: #22262e;
   --text: #eef0f3;
-  --hint: #969ca8;
+  --hint: #9aa0ac;
   --accent: #3fb184;
   --accent-soft: #16302650;
   --accent-text: #08130d;
   --destructive: #f0605f;
   --destructive-soft: #3a1e1e;
   --positive: #3fb184;
-  --separator: rgba(255, 255, 255, 0.09);
-  --border: rgba(255, 255, 255, 0.12);
+  --separator: rgba(255, 255, 255, 0.10);
+  --border: rgba(255, 255, 255, 0.14);
 }
 
 * { box-sizing: border-box; }
@@ -39,252 +39,316 @@ body {
   background: var(--bg);
   color: var(--text);
   -webkit-font-smoothing: antialiased;
-  font-size: 16px;
+  /* Base grande: pensato per la lettura su telefono anche da chi non ci vede benissimo. */
+  font-size: 17px;
+  line-height: 1.4;
 }
+
+/* Evita lo zoom automatico di iOS sui campi: i font degli input sono >= 16px. */
+input, textarea, select, button { font-family: inherit; }
 
 #root { min-height: 100vh; }
 
 .page {
-  padding: calc(14px + env(safe-area-inset-top)) 14px calc(84px + env(safe-area-inset-bottom));
-  max-width: 600px;
+  padding: calc(14px + env(safe-area-inset-top)) 16px calc(96px + env(safe-area-inset-bottom));
+  max-width: 620px;
   margin: 0 auto;
 }
-.page.no-nav { padding-bottom: calc(24px + env(safe-area-inset-bottom)); }
+.page.no-nav { padding-bottom: calc(28px + env(safe-area-inset-bottom)); }
 
-/* Header */
-.page-header { display: flex; align-items: center; gap: 8px; padding: 6px 0 14px; }
-.page-header h1 { font-size: 22px; font-weight: 700; margin: 0; flex: 1; }
+/* ---------- Header ---------- */
+.page-header { display: flex; align-items: center; gap: 10px; padding: 6px 0 16px; }
+.page-header h1 { font-size: 26px; font-weight: 800; margin: 0; flex: 1; letter-spacing: -0.01em; }
 
 .back-btn {
   border: 1px solid var(--border);
   background: var(--card);
   color: var(--accent);
-  height: 36px; padding: 0 14px 0 8px;
-  border-radius: 18px; font-size: 14px; font-weight: 600;
-  display: flex; align-items: center; gap: 1px; cursor: pointer; flex-shrink: 0;
+  min-height: 44px; padding: 0 16px 0 10px;
+  border-radius: 22px; font-size: 16px; font-weight: 600;
+  display: flex; align-items: center; gap: 2px; cursor: pointer; flex-shrink: 0;
 }
-.back-btn-arrow { font-size: 20px; line-height: 1; }
+.back-btn-arrow { font-size: 22px; line-height: 1; }
 
-/* Card */
+/* ---------- Card ---------- */
 .card {
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 14px; margin-bottom: 12px;
+  padding: 16px; margin-bottom: 14px;
 }
 .card-title {
-  font-size: 13px; font-weight: 600; text-transform: uppercase;
-  letter-spacing: 0.04em; color: var(--hint); margin: 0 0 10px;
+  font-size: 14px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.04em; color: var(--hint); margin: 0 0 12px;
 }
 .section-label {
-  font-size: 13px; font-weight: 600; text-transform: uppercase;
-  letter-spacing: 0.04em; color: var(--hint); margin: 20px 2px 8px;
+  font-size: 14px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.04em; color: var(--hint); margin: 22px 2px 10px;
 }
 
-/* Liste (righe cliccabili) */
+/* ---------- Righe cliccabili (storico) ---------- */
 .list-row {
-  display: flex; align-items: center; gap: 10px;
-  padding: 13px 0; border-bottom: 0.5px solid var(--separator);
+  display: flex; align-items: center; gap: 12px;
+  padding: 16px 0; border-bottom: 1px solid var(--separator);
   text-decoration: none; color: inherit; width: 100%;
   background: none; border-left: none; border-right: none; border-top: none;
-  font: inherit; text-align: left; cursor: pointer;
+  font: inherit; text-align: left; cursor: pointer; min-height: 60px;
 }
 .list-row:last-child { border-bottom: none; }
 .list-row .main { flex: 1; min-width: 0; }
 .list-row .title {
-  font-weight: 600; font-size: 15px;
+  font-weight: 600; font-size: 17px;
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
-.list-row .sub { font-size: 13px; color: var(--hint); margin-top: 2px; }
-.chevron { color: var(--hint); font-size: 18px; }
+.list-row .sub { font-size: 14px; color: var(--hint); margin-top: 3px; }
+.chevron { color: var(--hint); font-size: 22px; }
 
-/* Form */
-.field { margin-bottom: 12px; }
+/* ---------- Form ---------- */
+.field { margin-bottom: 14px; }
 .field label {
-  display: block; font-size: 13px; font-weight: 600;
-  color: var(--hint); margin-bottom: 6px;
+  display: block; font-size: 15px; font-weight: 700;
+  color: var(--text); margin-bottom: 7px;
 }
 .field input, .field textarea, .field select {
   width: 100%; border: 1px solid var(--border);
   background: var(--card); color: var(--text);
-  border-radius: 12px; padding: 12px 14px;
-  font-size: 16px; font-family: inherit; outline: none;
+  border-radius: 12px; padding: 14px 15px;
+  font-size: 17px; outline: none; min-height: 52px;
 }
+.field select { min-height: 54px; }
 .field input:focus, .field textarea:focus, .field select:focus {
   border-color: var(--accent);
   box-shadow: 0 0 0 3px var(--accent-soft);
 }
-.field textarea { resize: none; min-height: 64px; }
+.field textarea { resize: none; min-height: 72px; }
 
-/* Segmented */
+/* ---------- Segmented ---------- */
 .segmented {
   display: flex; background: var(--card-2);
   border: 1px solid var(--border);
-  border-radius: 12px; padding: 3px; gap: 3px; margin-bottom: 12px;
+  border-radius: 12px; padding: 4px; gap: 4px; margin-bottom: 14px;
 }
 .segmented button {
   flex: 1; border: none; background: transparent; color: var(--hint);
-  font: inherit; font-size: 14px; font-weight: 600;
-  padding: 8px 4px; border-radius: 9px; cursor: pointer;
+  font: inherit; font-size: 16px; font-weight: 700;
+  padding: 12px 4px; border-radius: 9px; cursor: pointer; min-height: 48px;
 }
 .segmented button.active { background: var(--accent); color: var(--accent-text); }
 
-/* Bottoni */
+/* ---------- Bottoni ---------- */
 .primary-btn {
   display: block; width: 100%; border: none;
   background: var(--accent); color: var(--accent-text);
-  font: inherit; font-size: 16px; font-weight: 700;
-  padding: 14px; border-radius: 12px; cursor: pointer; margin-top: 6px;
+  font: inherit; font-size: 18px; font-weight: 800;
+  padding: 16px; border-radius: 14px; cursor: pointer; margin-top: 8px;
+  min-height: 56px;
 }
 .primary-btn:disabled { opacity: 0.5; }
 
 .secondary-btn {
   display: block; width: 100%;
   border: 1px solid var(--border); background: var(--card);
-  color: var(--accent); font: inherit; font-size: 16px; font-weight: 600;
-  padding: 13px; border-radius: 12px; cursor: pointer; margin-top: 8px;
+  color: var(--accent); font: inherit; font-size: 17px; font-weight: 700;
+  padding: 15px; border-radius: 14px; cursor: pointer; margin-top: 10px;
+  min-height: 54px; text-align: center; text-decoration: none;
 }
 
 .inline-btn {
   border: none; background: none; color: var(--accent);
-  font: inherit; font-weight: 600; cursor: pointer; padding: 4px;
+  font: inherit; font-weight: 700; cursor: pointer; padding: 6px;
 }
 .danger-text { color: var(--destructive); }
 
-/* FAB / azione flottante rapida */
+/* ---------- FAB ---------- */
 .add-fab {
-  position: fixed; right: 18px;
-  bottom: calc(76px + env(safe-area-inset-bottom));
-  width: 56px; height: 56px; border-radius: 50%;
+  position: fixed; right: 20px;
+  bottom: calc(88px + env(safe-area-inset-bottom));
+  width: 64px; height: 64px; border-radius: 50%;
   background: var(--accent); color: var(--accent-text);
-  border: none; font-size: 30px; line-height: 1; cursor: pointer;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25); z-index: 20;
+  border: none; font-size: 34px; line-height: 1; cursor: pointer;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.28); z-index: 20;
   display: flex; align-items: center; justify-content: center;
 }
 
-/* Pill */
+/* ---------- Pill ---------- */
 .pill {
-  display: inline-block; font-size: 12px; font-weight: 600;
-  padding: 3px 9px; border-radius: 999px;
+  display: inline-block; font-size: 13px; font-weight: 700;
+  padding: 4px 11px; border-radius: 999px;
 }
 .pill.attiva { background: var(--accent-soft); color: var(--accent); }
-.pill.bozza { background: color-mix(in srgb, var(--hint) 16%, transparent); color: var(--hint); }
-.pill.storico { background: color-mix(in srgb, var(--hint) 14%, transparent); color: var(--hint); }
+.pill.bozza { background: color-mix(in srgb, var(--hint) 18%, transparent); color: var(--hint); }
+.pill.storico { background: color-mix(in srgb, var(--hint) 16%, transparent); color: var(--hint); }
 
-/* Chip suggerimenti */
-.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+/* ---------- Chip suggerimenti ---------- */
+.chips { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 6px; }
 .chip {
   border: 1px solid var(--border); background: var(--card-2);
   color: var(--text); border-radius: 999px;
-  padding: 7px 13px; font-size: 14px; font-weight: 500; cursor: pointer;
+  padding: 11px 16px; font-size: 16px; font-weight: 600; cursor: pointer;
+  min-height: 44px;
 }
-.chip:active { background: var(--accent-soft); }
+.chip:active { background: var(--accent-soft); border-color: var(--accent); }
 
-/* Voce della spesa */
+/* ---------- Titolo lista (Home) ---------- */
+.lista-titolo {
+  width: 100%; border: none; background: transparent; color: var(--text);
+  font-size: 21px; font-weight: 800; padding: 2px 0 8px; outline: none;
+  border-bottom: 2px dashed transparent;
+}
+.lista-titolo:focus { border-bottom-color: var(--border); }
+.lista-meta { font-size: 14px; color: var(--hint); margin: 0 0 6px; }
+.lista-meta b { color: var(--text); font-weight: 700; }
+
+/* ---------- Voce della spesa (grande, tap sull'intera riga) ---------- */
+.voci-box { margin-top: 6px; }
 .voce {
-  display: flex; align-items: center; gap: 12px;
-  padding: 12px 0; border-bottom: 0.5px solid var(--separator);
+  display: flex; align-items: center; gap: 4px;
+  border-bottom: 1px solid var(--separator);
 }
 .voce:last-child { border-bottom: none; }
-.voce .voce-main { flex: 1; min-width: 0; }
-.voce .voce-nome { font-size: 16px; font-weight: 500; }
+
+/* Zona cliccabile (spunta + nome): occupa quasi tutta la riga ed è alta 60px */
+.voce-tap {
+  flex: 1; min-width: 0;
+  display: flex; align-items: center; gap: 14px;
+  padding: 15px 2px; min-height: 60px;
+  background: none; border: none; font: inherit; text-align: left;
+  color: inherit; cursor: pointer;
+}
+.voce-main { flex: 1; min-width: 0; }
+/* Righe .voce senza zona tap (promemoria, dettaglio storico): danno l'altezza loro */
+.voce > .voce-main { padding: 15px 0; }
+.voce-nome { font-size: 18px; font-weight: 600; overflow-wrap: anywhere; }
 .voce.done .voce-nome { text-decoration: line-through; color: var(--hint); }
-.voce .voce-q { font-size: 13px; color: var(--hint); margin-left: 6px; }
-.voce .voce-del {
+.voce-q { font-size: 15px; color: var(--hint); margin-left: 8px; white-space: nowrap; }
+
+.voce-del {
   border: none; background: none; color: var(--hint);
-  font-size: 20px; cursor: pointer; padding: 2px 6px; flex-shrink: 0;
+  font-size: 26px; cursor: pointer; flex-shrink: 0;
+  width: 48px; height: 48px; display: flex; align-items: center; justify-content: center;
 }
 
+/* Checkbox grande */
 .check {
-  width: 24px; height: 24px; border-radius: 7px; flex-shrink: 0;
-  border: 2px solid var(--border); background: var(--card);
-  cursor: pointer; display: flex; align-items: center; justify-content: center;
-  color: var(--accent-text); font-size: 15px;
+  width: 34px; height: 34px; border-radius: 9px; flex-shrink: 0;
+  border: 2.5px solid var(--border); background: var(--card);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--accent-text); font-size: 20px; font-weight: 800;
 }
 .check.on { background: var(--accent); border-color: var(--accent); }
 
-/* Bacheca */
-.msg { background: var(--card); border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 12px 14px; margin-bottom: 10px; }
-.msg.mine { background: var(--accent-soft); }
-.msg .msg-head { display: flex; justify-content: space-between;
-  font-size: 12px; color: var(--hint); margin-bottom: 4px; }
-.msg .msg-head b { color: var(--text); }
-.msg .msg-body { white-space: pre-wrap; word-break: break-word; font-size: 15px; }
-
-/* Composer bacheca */
-.composer { display: flex; gap: 8px; align-items: flex-end; margin-bottom: 14px; }
-.composer textarea {
-  flex: 1; border: 1px solid var(--border); background: var(--card);
-  color: var(--text); border-radius: 12px; padding: 11px 14px;
-  font: inherit; font-size: 16px; resize: none; min-height: 44px; max-height: 120px; outline: none;
-}
-.composer textarea:focus { border-color: var(--accent); }
-.composer button {
-  border: none; background: var(--accent); color: var(--accent-text);
-  border-radius: 12px; height: 44px; padding: 0 18px;
-  font: inherit; font-weight: 700; cursor: pointer; flex-shrink: 0;
-}
-.composer button:disabled { opacity: 0.5; }
-
-/* Row con azioni (add voce) */
-.add-voce { display: flex; gap: 8px; margin-bottom: 6px; }
-.add-voce input.nome { flex: 1; }
-.add-voce input.q { width: 84px; flex-shrink: 0; }
+/* ---------- Aggiungi prodotto ---------- */
+.add-voce { display: flex; gap: 10px; margin-bottom: 8px; }
 .add-voce input {
   border: 1px solid var(--border); background: var(--card); color: var(--text);
-  border-radius: 12px; padding: 12px 14px; font-size: 16px; font-family: inherit; outline: none;
+  border-radius: 12px; padding: 14px 15px; font-size: 17px; outline: none; min-height: 54px;
 }
-.add-voce input:focus { border-color: var(--accent); }
+.add-voce input.nome { flex: 1; min-width: 0; }
+.add-voce input.q { width: 78px; flex-shrink: 0; }
+.add-voce input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
 .add-voce button {
   border: none; background: var(--accent); color: var(--accent-text);
-  border-radius: 12px; padding: 0 16px; font: inherit; font-weight: 700;
+  border-radius: 12px; min-width: 56px; font-size: 28px; font-weight: 700;
   cursor: pointer; flex-shrink: 0;
 }
 
-/* Stato vuoto / errori / spinner */
-.empty { text-align: center; color: var(--hint); padding: 32px 16px; font-size: 15px; }
-.empty .emoji { font-size: 34px; display: block; margin-bottom: 8px; }
+/* ---------- Invia a ---------- */
+.invia-box { margin-top: 14px; }
+
+/* ---------- Bacheca / chat ---------- */
+.composer { display: flex; gap: 10px; align-items: flex-end; margin-bottom: 10px; }
+.composer textarea {
+  flex: 1; border: 1px solid var(--border); background: var(--card);
+  color: var(--text); border-radius: 14px; padding: 13px 15px;
+  font: inherit; font-size: 17px; resize: none; min-height: 52px; max-height: 140px; outline: none;
+}
+.composer textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.composer button {
+  border: none; background: var(--accent); color: var(--accent-text);
+  border-radius: 14px; min-height: 52px; padding: 0 22px;
+  font: inherit; font-size: 17px; font-weight: 800; cursor: pointer; flex-shrink: 0;
+}
+.composer button:disabled { opacity: 0.5; }
+
+/* Thread */
+.thread { background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 14px; margin-bottom: 14px; }
+
+.bubble { margin-bottom: 10px; }
+.bubble:last-of-type { margin-bottom: 0; }
+.bubble .bubble-head {
+  display: flex; align-items: baseline; gap: 8px;
+  font-size: 14px; color: var(--hint); margin-bottom: 3px;
+}
+.bubble .bubble-head b { color: var(--text); font-size: 15px; font-weight: 700; }
+.bubble .bubble-head .via { font-size: 12px; }
+.bubble .bubble-body {
+  white-space: pre-wrap; word-break: break-word; font-size: 17px;
+  background: var(--card-2); border-radius: 12px; padding: 11px 14px;
+}
+.bubble.mine .bubble-body { background: var(--accent-soft); }
+
+.risposte { margin: 10px 0 0 14px; padding-left: 12px; border-left: 3px solid var(--separator); }
+
+.reply-box { display: flex; gap: 8px; margin-top: 12px; }
+.reply-box input {
+  flex: 1; min-width: 0; border: 1px solid var(--border); background: var(--card);
+  color: var(--text); border-radius: 12px; padding: 12px 14px; font-size: 16px;
+  outline: none; min-height: 48px;
+}
+.reply-box input:focus { border-color: var(--accent); }
+.reply-box button {
+  border: none; background: var(--accent); color: var(--accent-text);
+  border-radius: 12px; min-height: 48px; padding: 0 18px; font: inherit; font-weight: 700;
+  cursor: pointer; flex-shrink: 0;
+}
+.reply-box button:disabled { opacity: 0.5; }
+
+/* ---------- Stato vuoto / errori / spinner ---------- */
+.empty { text-align: center; color: var(--hint); padding: 40px 16px; font-size: 17px; }
+.empty .emoji { font-size: 44px; display: block; margin-bottom: 10px; }
 .error-box {
   background: var(--destructive-soft); color: var(--destructive);
-  border-radius: 12px; padding: 10px 14px; font-size: 14px; margin-bottom: 12px;
+  border-radius: 12px; padding: 12px 15px; font-size: 15px; margin-bottom: 14px;
 }
-.spinner-wrap { display: flex; justify-content: center; padding: 40px 0; }
+.spinner-wrap { display: flex; justify-content: center; padding: 48px 0; }
 .spinner {
-  width: 26px; height: 26px; border: 3px solid var(--separator);
+  width: 30px; height: 30px; border: 3px solid var(--separator);
   border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite;
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-.note { font-size: 12px; color: var(--hint); margin-top: 8px; line-height: 1.4; }
+.note { font-size: 14px; color: var(--hint); margin-top: 10px; line-height: 1.45; }
 
-/* Bottom nav */
+/* ---------- Bottom nav (grande, facile da toccare) ---------- */
 .bottom-nav {
   position: fixed; bottom: 0; left: 0; right: 0; display: flex;
   background: var(--card); border-top: 1px solid var(--border);
-  padding: 6px 0 calc(6px + env(safe-area-inset-bottom)); z-index: 10;
+  padding: 8px 0 calc(8px + env(safe-area-inset-bottom)); z-index: 10;
 }
 .bottom-nav a {
-  flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px;
-  text-decoration: none; color: var(--hint); font-size: 11px; font-weight: 500; padding: 4px 0;
+  flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px;
+  text-decoration: none; color: var(--hint); font-size: 13px; font-weight: 600;
+  padding: 4px 0; min-height: 56px;
 }
 .bottom-nav a.active { color: var(--accent); }
-.bottom-nav svg { width: 24px; height: 24px; }
+.bottom-nav svg { width: 28px; height: 28px; }
 
-/* Switch */
-.switch { position: relative; width: 46px; height: 28px; flex-shrink: 0; }
+/* ---------- Switch ---------- */
+.switch { position: relative; width: 54px; height: 32px; flex-shrink: 0; }
 .switch input { opacity: 0; width: 0; height: 0; }
 .switch .track {
   position: absolute; inset: 0;
-  background: color-mix(in srgb, var(--hint) 35%, transparent);
+  background: color-mix(in srgb, var(--hint) 40%, transparent);
   border-radius: 999px; transition: background 0.15s;
 }
 .switch .track::after {
-  content: ''; position: absolute; top: 2px; left: 2px;
-  width: 24px; height: 24px; background: #fff; border-radius: 50%;
+  content: ''; position: absolute; top: 3px; left: 3px;
+  width: 26px; height: 26px; background: #fff; border-radius: 50%;
   transition: transform 0.15s; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
 }
 .switch input:checked + .track { background: var(--accent); }
-.switch input:checked + .track::after { transform: translateX(18px); }
+.switch input:checked + .track::after { transform: translateX(22px); }
 
-.row-between { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.row-between { display: flex; align-items: center; justify-content: space-between; gap: 14px; }
+.row-between > .field { flex: 1; margin-bottom: 0; }
