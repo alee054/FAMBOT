@@ -11,6 +11,7 @@ export const Icons = {
   cart: icon(<><circle cx="9" cy="20" r="1.4" fill="currentColor" stroke="none" /><circle cx="18" cy="20" r="1.4" fill="currentColor" stroke="none" /><path d="M2 3h2.2l2.3 12.4a1.6 1.6 0 0 0 1.6 1.3h8.7a1.6 1.6 0 0 0 1.6-1.3L21 7H5.3" /></>),
   bell: icon(<><path d="M6 9a6 6 0 0 1 12 0c0 5 2 6 2 6H4s2-1 2-6" /><path d="M10 19a2 2 0 0 0 4 0" /></>),
   board: icon(<><rect x="3" y="4" width="18" height="16" rx="2" /><path d="M7 9h10" /><path d="M7 13h6" /></>),
+  map: icon(<><path d="M9 4 3 6.5v13L9 17l6 2.5 6-2.5v-13L15 6.5 9 4Z" /><path d="M9 4v13" /><path d="M15 6.5v13" /></>),
 };
 
 export function PageHeader({ title, back }: { title: string; back?: boolean }) {
@@ -89,6 +90,7 @@ export function Switch({ checked, onChange }: { checked: boolean; onChange: (v: 
 export function BottomNav() {
   const tabs = [
     { to: '/', label: 'Spesa', icon: Icons.cart },
+    { to: '/piantina', label: 'Piantina', icon: Icons.map },
     { to: '/promemoria', label: 'Promemoria', icon: Icons.bell },
     { to: '/bacheca', label: 'Bacheca', icon: Icons.board },
   ];

@@ -13,6 +13,11 @@
   --separator: rgba(0, 0, 0, 0.09);
   --border: rgba(0, 0, 0, 0.12);
   --radius: 16px;
+  /* Piantina */
+  --mappa-carta: #fcfcfe;
+  --mappa-muro: #64748b;
+  --mappa-testo: #334155;
+  --mappa-scaffale: #cbd5e1;
 }
 
 :root[data-scheme='dark'] {
@@ -29,6 +34,10 @@
   --positive: #3fb184;
   --separator: rgba(255, 255, 255, 0.10);
   --border: rgba(255, 255, 255, 0.14);
+  --mappa-carta: #11151c;
+  --mappa-muro: #94a3b8;
+  --mappa-testo: #cbd5e1;
+  --mappa-scaffale: #475569;
 }
 
 * { box-sizing: border-box; }
@@ -303,6 +312,100 @@ input, textarea, select, button { font-family: inherit; }
   cursor: pointer; flex-shrink: 0;
 }
 .reply-box button:disabled { opacity: 0.5; }
+
+/* ---------- Piantina del negozio ---------- */
+.mappa-box {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius); overflow: hidden; margin-bottom: 12px;
+}
+
+.mappa-viewport {
+  position: relative;
+  /* stesse proporzioni della piantina: niente fasce vuote sopra/sotto.
+     width esplicito: senza, aspect-ratio + min-height allarga il box oltre lo schermo. */
+  width: 100%;
+  aspect-ratio: 665 / 480;
+  min-height: 262px;
+  background: var(--card-2);
+  overflow: hidden;
+  touch-action: none;            /* i gesti li gestiamo noi (pinch + trascina) */
+  cursor: grab;
+  -webkit-user-select: none; user-select: none;
+}
+.mappa-viewport:active { cursor: grabbing; }
+
+.mappa { width: 100%; height: 100%; display: block; will-change: transform; }
+
+.mappa .muri {
+  fill: var(--mappa-carta);
+  stroke: var(--mappa-muro);
+  stroke-width: 3;
+  stroke-linejoin: round;
+}
+.mappa .corsie-box {
+  fill: none; stroke: var(--mappa-muro); stroke-width: 1.6;
+  stroke-dasharray: 6 5; opacity: 0.75;
+}
+.mappa .testo-fuori { fill: var(--mappa-testo); letter-spacing: 0.06em; }
+.mappa .scaffali rect { fill: var(--mappa-scaffale); }
+.mappa .scaffali rect.scuro { fill: var(--mappa-muro); }
+.mappa .banchi > * {
+  fill: none; stroke: #4338CA; stroke-width: 2.4; opacity: 0.85; pointer-events: none;
+}
+
+/* Zone cliccabili */
+.mappa .zona { cursor: pointer; }
+.mappa .zona-shape { transition: stroke-width 0.15s ease, filter 0.15s ease; }
+.mappa .zona.sel .zona-shape {
+  stroke-width: 4.5;
+  filter: drop-shadow(0 0 7px rgba(15, 23, 42, 0.45));
+}
+/* quando una zona è scelta, le altre si attenuano */
+.mappa-box.has-sel .mappa .zona:not(.sel) { opacity: 0.45; transition: opacity 0.15s ease; }
+
+/* Comandi zoom */
+/* barra sotto la mappa: non copre nessuna zona della piantina */
+.mappa-cmd {
+  display: flex; gap: 8px; padding: 10px 12px;
+  border-top: 1px solid var(--border); background: var(--card);
+}
+.mappa-cmd button {
+  height: 48px; min-width: 56px; border-radius: 12px;
+  border: 1px solid var(--border); background: var(--card-2); color: var(--text);
+  font: inherit; font-size: 24px; font-weight: 700; line-height: 1; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+}
+.mappa-cmd button.fit {
+  flex: 1; font-size: 16px; font-weight: 700;
+  color: var(--accent); border-color: var(--accent); gap: 6px;
+}
+
+/* Barra della zona selezionata */
+.mappa-sel {
+  display: flex; align-items: center; gap: 9px;
+  padding: 13px 15px; border-top: 1px solid var(--border);
+  font-size: 16px; min-height: 54px; background: var(--card);
+}
+.mappa-sel.on { background: var(--accent-soft); }
+.mappa-sel b { font-size: 17px; }
+.mappa-sel .dopo { color: var(--hint); font-size: 14px; }
+
+.pallino {
+  width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0;
+  display: inline-block;
+}
+
+/* Elenco zone (per trovarle senza cercarle sulla mappa) */
+.zone-griglia {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;
+}
+.zona-chip {
+  display: flex; align-items: center; gap: 9px;
+  border: 2px solid var(--border); background: var(--card); color: var(--text);
+  border-radius: 12px; padding: 12px 13px; font: inherit; font-size: 15px;
+  font-weight: 600; cursor: pointer; min-height: 52px; text-align: left;
+}
+.zona-chip.on { background: var(--accent-soft); }
 
 /* ---------- Stato vuoto / errori / spinner ---------- */
 .empty { text-align: center; color: var(--hint); padding: 40px 16px; font-size: 17px; }

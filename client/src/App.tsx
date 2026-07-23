@@ -5,8 +5,9 @@ import ListaDettaglio from './pages/ListaDettaglio';
 import Storico from './pages/Storico';
 import Promemoria from './pages/Promemoria';
 import Bacheca from './pages/Bacheca';
+import Piantina from './pages/Piantina';
 
-const TAB_ROUTES = ['/', '/promemoria', '/bacheca'];
+const TAB_ROUTES = ['/', '/piantina', '/promemoria', '/bacheca'];
 
 export default function App() {
   const { pathname } = useLocation();
@@ -18,6 +19,7 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/lista/:id" element={<ListaDettaglio />} />
           <Route path="/storico" element={<Storico />} />
+          <Route path="/piantina" element={<Piantina />} />
           <Route path="/promemoria" element={<Promemoria />} />
           <Route path="/bacheca" element={<Bacheca />} />
         </Routes>
